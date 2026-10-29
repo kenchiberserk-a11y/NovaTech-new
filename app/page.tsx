@@ -1,6 +1,6 @@
 "use client";
 import { FormEvent, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
+import { createBrowserClient } from "@supabase/ssr";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -16,7 +16,7 @@ export default function Home() {
     if (!url || !key) { setError("El acceso aún no está configurado. Añade las variables de Supabase indicadas en el README."); return; }
     setLoading(true);
     try {
-      const supabase = createClient(url, key);
+      const supabase = createBrowserClient(url, key);
       const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
       if (authError || !data.user) { setError("No se pudo iniciar sesión. Comprueba tus datos e inténtalo de nuevo."); return; }
       const response = await fetch("/api/session", { method: "POST" });
