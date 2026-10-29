@@ -19,7 +19,7 @@ Importa el repositorio en Vercel, configura `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_P
 - No hay cuentas privilegiadas preconfiguradas ni credenciales `admin/admin` en el sitio desplegado.
 - La selección de “Administrador” en el formulario es una preferencia de acceso, no concede privilegios. El rol se comprueba con el perfil de Supabase y en middleware.
 - La política RLS de perfiles limita la lectura al propio usuario. Antes de guardar datos empresariales, crea tablas específicas y políticas RLS que comprueben permisos en la base de datos; no confíes solo en ocultar componentes de la UI.
-- Para practicar Hydra, utiliza un laboratorio deliberadamente vulnerable y aislado en localhost/una VM de laboratorio, con datos ficticios, sin exponerlo a Internet ni conectarlo a cuentas reales. No ejecutes pruebas de fuerza bruta contra el dominio público de Vercel.
+- Para pruebas HTTP controladas con Hydra, consulta [`docs/hydra-lab.md`](docs/hydra-lab.md). El endpoint `/api/lab-login` es independiente del login real, no crea sesiones ni concede acceso al panel y está desactivado por defecto. Úsalo solo en un deployment Preview privado, con token secreto y allowlist de IP; desactívalo al terminar. No lo habilites en Production ni uses credenciales reales.
 
 ## Estado
 
