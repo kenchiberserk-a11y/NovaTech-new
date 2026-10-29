@@ -21,12 +21,10 @@ export async function POST(request: NextRequest) {
   }
 
   const allowedIp = process.env.LAB_ALLOWED_IP?.trim();
-  if (allowedIp) {
-    // Vercel supplies x-real-ip at the edge. Fail closed if it is unavailable.
-    const clientIp = request.headers.get("x-real-ip")?.trim();
-    if (!clientIp || clientIp !== allowedIp) {
-      return NextResponse.json({ result: "LAB_FORBIDDEN" }, { status: 403 });
-    }
+  // Require the allowlist to be configured; never silently run token-only.
+  const clientIp = request.headers.get("x-real-ip")?.trim();
+  if (!allowedIp || !clientIp || clientIp !== allowedIp) {
+    return NextResponse.json({ result: "LAB_FORBIDDEN" }, { status: 403 });
   }
 
   const username = process.env.LAB_TEST_USERNAME;
